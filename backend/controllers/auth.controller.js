@@ -20,6 +20,7 @@ export const login = async (req, res) => {
             username: user.username,
             picturePro: user.picturePro,
         });
+        
     } catch (error) {
         console.log("Loi dang nhap", error.message);
         res.status(500).json({ error: "Loi" });
@@ -41,12 +42,12 @@ export const signup = async (req, res) => {
         const { fullName, username, pass, confirmPass, Gender } = req.body;
 
         if (pass !== confirmPass) {
-            return res.status(400).json({ error: "Mat khau khong trung khop" })
+            return res.status(400).json({ error: "Mat khau khong trung khop" });
         }
         const user = await User.findOne({ username });
 
         if (user) {
-            return res.status(400).json({ error: "Ten dang nhap da ton tai" })
+            return res.status(400).json({ error: "Ten dang nhap da ton tai" });
         }
 
         const salt = await bcrypt.genSalt(10);
