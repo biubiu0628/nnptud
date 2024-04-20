@@ -1,4 +1,4 @@
-import Conversation from "../models/conversation.model.js"
+import Conversation from "../models/conversation.model.js";
 import Message from "../models/message.model.js";
 
 export const sendMessage = async (req, res) => {
@@ -26,7 +26,12 @@ export const sendMessage = async (req, res) => {
         if (newMessage) {
             conversation.messages.push(newMessage._id);
         }
+        
+        //await conversation.save();
+        //await newMessage.save();
 
+        await Promise.all([conversation.save(), newMessage.save()]);
+        
         res.status(201).json(newMessage);
 
     } catch (error) {
@@ -47,7 +52,7 @@ export const getMessages = async (req, res) => {
         if (!conversation) return res.status(200).json([]);
 
         const messages = conversation.messages;
-        
+
         res.status(200).json(messages);
     } catch (error) {
         console.log("Khong gui duoc tin nhan ", error.message);
